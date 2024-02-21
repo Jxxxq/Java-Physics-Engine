@@ -9,7 +9,7 @@ public class Ball {
 	
 	public Ball(Vector2 position) {
 		this.position = new Vector2(position);
-		this.velocity = new Vector2(0,0);
+		this.velocity = new Vector2(200,0);
 		this.acceleration = new Vector2(0,9.8f);
 	}
 	
@@ -18,6 +18,12 @@ public class Ball {
 	}
 	
 	public void update(float deltaTime) {
+		if(position.getX() > World.getInstance().getWalls() || position.getX()<0) {
+			velocity = new Vector2(-velocity.getX()*0.8f, velocity.getY());
+		}
+		if(position.getY() > World.getInstance().getGround() || position.getY()<0) {
+			velocity = new Vector2(velocity.getX(), -velocity.getY()*0.8f);
+		}
 	    Vector2 acc = new Vector2(acceleration);
 	    acc.scale(deltaTime);
 	    velocity.add(acc);
@@ -28,6 +34,7 @@ public class Ball {
 	    
 	}
 
+	
 	
 	public Vector2 getPosition() {
 		return new Vector2(position);

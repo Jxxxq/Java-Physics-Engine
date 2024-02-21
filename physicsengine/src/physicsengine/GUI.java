@@ -9,7 +9,7 @@ public class GUI extends JFrame {
     
     private int BOARD_WIDTH = 1280;
     private int BOARD_HEIGHT = 880;
-
+   
     private JPanel drawingPanel; // A panel where balls are drawn
 
     public GUI(int width, int height) {
@@ -17,7 +17,7 @@ public class GUI extends JFrame {
         this.BOARD_HEIGHT = height;
         initGUI();
     }
-    
+        
     public GUI() {
         initGUI();
     }
@@ -27,7 +27,8 @@ public class GUI extends JFrame {
         this.setSize(BOARD_WIDTH, BOARD_HEIGHT);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setLocationRelativeTo(null);
-        
+        World.getInstance().setGround(BOARD_HEIGHT);
+        World.getInstance().setWalls(BOARD_WIDTH);
         // Initialize the drawing panel
         drawingPanel = new JPanel() {
             @Override
@@ -43,7 +44,7 @@ public class GUI extends JFrame {
     }
 
     private void drawBalls(Graphics g) {
-        Manager manager = Manager.getInstance();
+        World manager = World.getInstance();
         for (Ball ball : manager.getBalls()) {
             Vector2 position = ball.getPosition();
             int radius = ball.getRadius();
@@ -52,27 +53,4 @@ public class GUI extends JFrame {
         }
     }
 
-    public void updateAndRepaint() {
-        long lastUpdate = System.nanoTime();
-        while (true) {
-            long now = System.nanoTime();
-            float deltaTime = (now - lastUpdate) / 1000000000.0f; // Convert to seconds
-            lastUpdate = now;
-
-            System.out.println(deltaTime);
-            Manager manager = Manager.getInstance();
-            for (Ball ball : manager.getBalls()) {
-                ball.addForce(new Vector2(0,deltaTime)); // Scale gravity by deltaTime
-                ball.update(deltaTime);
-            }
-            
-            drawingPanel.repaint(); 
-
-//            try {
-//                Thread.sleep(1);
-//            } catch (InterruptedException e) {
-//                e.printStackTrace();
-//            }
-        }
-    }
 }
