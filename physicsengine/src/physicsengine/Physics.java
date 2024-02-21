@@ -23,10 +23,8 @@ public class Physics {
             float deltaTime = (now - lastUpdate) / 1000000000.0f; 
             lastUpdate = now;
 
-            System.out.println("Delta time: " + deltaTime);
             World manager = World.getInstance();
             for (Ball ball : manager.getBalls()) {
-                ball.addForce(new Vector2(0, 9.8f * deltaTime));
                 ball.update(deltaTime);
             }
 
