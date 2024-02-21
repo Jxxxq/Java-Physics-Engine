@@ -1,22 +1,20 @@
 package physicsengine;
 
-import java.awt.Font;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
+import java.awt.Color;
+import java.awt.Graphics;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.SwingConstants;
+import javax.swing.JPanel;
 
 public class GUI extends JFrame {
     
     private int BOARD_WIDTH = 1280;
     private int BOARD_HEIGHT = 880;
 
-    private JLabel label;
-    
+    private JPanel drawingPanel; // A panel where balls are drawn
+
     public GUI(int width, int height) {
-        this.BOARD_HEIGHT = height;
         this.BOARD_WIDTH = width;
+        this.BOARD_HEIGHT = height;
         initGUI();
     }
     
@@ -28,29 +26,53 @@ public class GUI extends JFrame {
         this.setTitle("Java Physics Engine");
         this.setSize(BOARD_WIDTH, BOARD_HEIGHT);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setLayout(null);
         this.setLocationRelativeTo(null);
         
-        label = new JLabel("Budget Physics Engine", SwingConstants.CENTER);
-        centerLabel(BOARD_WIDTH, BOARD_HEIGHT);
-        this.add(label);
-        
-        this.addComponentListener(new ComponentAdapter() {
-            public void componentResized(ComponentEvent e) {
-                centerLabel(getWidth(), getHeight());
+        // Initialize the drawing panel
+        drawingPanel = new JPanel() {
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                drawBalls(g); // Draw all balls on this panel
             }
-        });
+        };
+        drawingPanel.setSize(BOARD_WIDTH, BOARD_HEIGHT);
+        drawingPanel.setLayout(null);
+        this.add(drawingPanel);
+        this.setVisible(true);
     }
-    
-    private void centerLabel(int frameWidth, int frameHeight) {
-        int labelWidth = frameWidth / 2; 
-        int labelHeight = 100; 
-        int labelX = (frameWidth - labelWidth) / 2; 
-        int labelY = (frameHeight - labelHeight) / 2;
-        
-        label.setBounds(labelX, labelY, labelWidth, labelHeight);
-        
-        float newSize = frameWidth / 50f;
-        label.setFont(new Font("Arial", Font.PLAIN, Math.max(10, (int)newSize)));
+
+    private void drawBalls(Graphics g) {
+        Manager manager = Manager.getInstance();
+        for (Ball ball : manager.getBalls()) {
+            Vector2 position = ball.getPosition();
+            int radius = ball.getRadius();
+            g.setColor(Color.RED);
+            g.fillOval((int)position.getX() - radius, (int)position.getY() - radius, 2 * radius, 2 * radius);
+        }
+    }
+
+    public void updateAndRepaint() {
+        long lastUpdate = System.nanoTime();
+        while (true) {
+            long now = System.nanoTime();
+            float deltaTime = (now - lastUpdate) / 1000000000.0f; // Convert to seconds
+            lastUpdate = now;
+
+            System.out.println(deltaTime);
+            Manager manager = Manager.getInstance();
+            for (Ball ball : manager.getBalls()) {
+                ball.addForce(new Vector2(0,deltaTime)); // Scale gravity by deltaTime
+                ball.update(deltaTime);
+            }
+            
+            drawingPanel.repaint(); 
+
+//            try {
+//                Thread.sleep(1);
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//            }
+        }
     }
 }
