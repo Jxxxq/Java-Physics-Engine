@@ -29,12 +29,11 @@ public class GUI extends JFrame {
         this.setLocationRelativeTo(null);
         World.getInstance().setGround(BOARD_HEIGHT);
         World.getInstance().setWalls(BOARD_WIDTH);
-        // Initialize the drawing panel
         drawingPanel = new JPanel() {
             @Override
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
-                drawBalls(g); // Draw all balls on this panel
+                drawBalls(g); 
                 drawBarriers(g);
             }
         };
@@ -54,11 +53,9 @@ public class GUI extends JFrame {
         }
     }
     private void drawBarriers(Graphics g) {
-        g.setColor(Color.RED); // Set the color for the barriers
-        // Draw a rectangle around the edges of the panel
+        g.setColor(Color.RED);
         g.drawRect(0, 0, BOARD_WIDTH - 1, BOARD_HEIGHT - 1);
-        
-        // Optional: Draw thicker borders or additional boundary indicators if needed
+
     }
 
 }

@@ -87,6 +87,10 @@ public class Vector2 {
 	    float magMult = v1.getMagnitude() * v2.getMagnitude();
 	    return (float) Math.acos(dot / magMult);
 	}
+	
+	public String toString() {
+		return "< " + x + ", " + y + ">";
+	}
 
 	
 }

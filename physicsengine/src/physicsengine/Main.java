@@ -7,10 +7,10 @@ public class Main {
 		java.awt.EventQueue.invokeLater(() -> {
 		    GUI g = new GUI(1200,700);
 		    g.setVisible(true);
-		    Physics physics = new Physics(g); // Pass the GUI instance to Physics
-		    physics.startSimulation(); // This starts the physics update loop
+		    Physics physics = new Physics(g); 
+		    physics.startSimulation();
 		});
-
+		World.getInstance().getBalls().get(0).addForce(new Vector2(0,200f));
         
         
 	}
