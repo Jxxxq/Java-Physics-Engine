@@ -22,8 +22,8 @@ public class Physics {
 
         for (Ball ball : world.getBalls()) {
 
-                Vector2 position = ball.getPosition();
-                Vector2 velocity = ball.getVelocity();
+                Vector2 position = ball.body.getPosition();
+                Vector2 velocity = ball.body.getVelocity();
                 float radius = ball.getRadius();
 
                 if (velocity.getX() <= 0.000000001f && velocity.getX() >= -0.000000001f && velocity.getY() <= 0.3 && !ball.isGrounded()) {
@@ -44,7 +44,7 @@ public class Physics {
                     position.setY(position.getY() > world.getGround() - radius ? world.getGround() - radius : radius);
                 }
 
-                Vector2 acc = new Vector2(ball.getAcceleration());
+                Vector2 acc = new Vector2(ball.body.getAcceleration());
                 acc.scale(deltaTime);
                 velocity.add(acc);
 
@@ -52,11 +52,11 @@ public class Physics {
                 vel.scale(deltaTime);
                 position.add(vel);
 
-                ball.setPosition(position);
-                ball.setVelocity(velocity);
+                ball.body.setPosition(position);
+                ball.body.setVelocity(velocity);
                 
-                System.out.println("Vel: " + ball.getVelocity().toString());
-                System.out.println("Acc: " + ball.getAcceleration().toString());
+//                System.out.println("Vel: " + ball.getVelocity().toString());
+//                System.out.println("Acc: " + ball.getAcceleration().toString());
         }
     }
     private void updateLoop() {

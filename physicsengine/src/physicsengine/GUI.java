@@ -9,7 +9,8 @@ public class GUI extends JFrame {
     
     private int BOARD_WIDTH = 1280;
     private int BOARD_HEIGHT = 880;
-   
+    private int padding = 20;
+    
     private JPanel drawingPanel; // A panel where balls are drawn
 
     public GUI(int width, int height) {
@@ -27,8 +28,8 @@ public class GUI extends JFrame {
         this.setSize(BOARD_WIDTH, BOARD_HEIGHT);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setLocationRelativeTo(null);
-        World.getInstance().setGround(BOARD_HEIGHT);
-        World.getInstance().setWalls(BOARD_WIDTH);
+        World.getInstance().setGround(BOARD_HEIGHT - padding * 2);
+        World.getInstance().setWalls(BOARD_WIDTH - padding * 2);
         drawingPanel = new JPanel() {
             @Override
             protected void paintComponent(Graphics g) {
@@ -46,7 +47,7 @@ public class GUI extends JFrame {
     private void drawBalls(Graphics g) {
         World manager = World.getInstance();
         for (Ball ball : manager.getBalls()) {
-            Vector2 position = ball.getPosition();
+            Vector2 position = ball.body.getPosition();
             int radius = ball.getRadius();
             g.setColor(Color.RED);
             g.fillOval((int)position.getX() - radius, (int)position.getY() - radius, 2 * radius, 2 * radius);
@@ -54,7 +55,7 @@ public class GUI extends JFrame {
     }
     private void drawBarriers(Graphics g) {
         g.setColor(Color.RED);
-        g.drawRect(0, 0, BOARD_WIDTH - 1, BOARD_HEIGHT - 1);
+        g.drawRect(0, 0, BOARD_WIDTH - padding * 2, BOARD_HEIGHT - padding * 2);
 
     }
 
