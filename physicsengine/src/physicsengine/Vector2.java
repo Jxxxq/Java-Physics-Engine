@@ -89,7 +89,7 @@ public class Vector2 {
 	}
 	
 	public String toString() {
-		return "< " + x + ", " + y + ">";
+		return "<" + x + ", " + y + ">";
 	}
 
 	

@@ -11,8 +11,8 @@ public class Main {
 		    Physics physics = new Physics(g); 
 		    physics.startSimulation();
 		});
-		World.getInstance().getBalls().get(0).addForce(new Vector2(10,200f));
-		World.getInstance().getBalls().get(1).addForce(new Vector2(20,200f));
+		World.getInstance().getBalls().get(0).addForce(new Vector2(0,200f));
+		World.getInstance().getBalls().get(1).addForce(new Vector2(0,200f));
 
         
 	}

@@ -18,8 +18,6 @@ public class Physics {
     }
 
     private void updateBalls(float deltaTime) {
-        World world = World.getInstance(); 
-
         for (Ball ball : world.getBalls()) {
 
                 Vector2 position = ball.body.getPosition();
@@ -64,6 +62,7 @@ public class Physics {
         long lastTime = System.nanoTime();
         long accumulator = 0L;
 
+        boolean test = false;
         while (running) {
             long now = System.nanoTime();
             long elapsed = now - lastTime;
@@ -73,6 +72,7 @@ public class Physics {
             //update physics at a fixed time step
             while (accumulator >= targetDelta) {
                 updateBalls(targetDelta / 1000000000.0f); 
+                checkForCollision();
                 accumulator -= targetDelta;
             }
 
@@ -85,12 +85,28 @@ public class Physics {
             }
         }
     }
-
+    
+    private void checkForCollision() {
+    	world.collisions.clear();
+    	for(int i = 0; i < world.getBalls().size(); i++) {
+    		Body bodyA = world.getBalls().get(i).body;
+    		for(int j = i+1; j < world.getBalls().size(); j++) {
+    			
+    			Body bodyB = world.getBalls().get(j).body;
+    			CInfo cinfo = new CInfo(bodyA, bodyB);
+    			cinfo.solve();
+    			
+    			//then do math for this certain cinfo and apply to both bodies
+    			if(cinfo.Contacted) world.collisions.add(cinfo);
+    		}
+    	}
+    }
+    
     public void stopSimulation() {
         running = false;
     }
     
-    public void implementForce(Body body, float deltaTime) {
-    	
-    }
+//    public void implementForce(Body body, float deltaTime) {
+//    	
+//    }
 }

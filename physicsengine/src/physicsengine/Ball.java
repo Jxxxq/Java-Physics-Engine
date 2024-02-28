@@ -2,7 +2,7 @@ package physicsengine;
 
 public class Ball extends Shape{
 
-	private int radius = 20;
+	private int radius = 30;
 	private boolean isGrounded = false;
 	
 	public Ball(Vector2 position) {

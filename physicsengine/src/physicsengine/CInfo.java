@@ -4,6 +4,7 @@ public class CInfo {
 
 	public Body bodyA;
 	public Body bodyB;
+	public boolean Contacted;
 	
 	public CInfo(Body bodyA, Body bodyB) {
 		this.bodyA = bodyA;
@@ -11,6 +12,6 @@ public class CInfo {
 	}
 	
 	public void solve() {
-		bodyA.shape.getType();
+		CircleCollision.handleCollision(bodyA, bodyB, this);
 	}
 }

@@ -6,6 +6,7 @@ import java.util.List;
 public class World {
 
 	private static World instance = null;
+	public ArrayList<CInfo> collisions = new ArrayList<>();
 	private List<Ball> balls;
 	private float ground;
 	private float walls;
