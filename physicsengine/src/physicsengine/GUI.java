@@ -2,16 +2,28 @@ package physicsengine;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 public class GUI extends JFrame {
     
-    private int BOARD_WIDTH = 1280;
-    private int BOARD_HEIGHT = 880;
-    private int padding = 20;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private int BOARD_WIDTH = 1280;
+    private int BOARD_HEIGHT = 980;
+    private int padding = 120;
     
-    private JPanel drawingPanel; // A panel where balls are drawn
+    private JButton addVelocityButton;
+    private JTextField velocityXField, velocityYField;
+    
+    private JPanel drawingPanel; //the panel where balls are drawn
 
     public GUI(int width, int height) {
         this.BOARD_WIDTH = width;
@@ -40,6 +52,32 @@ public class GUI extends JFrame {
         };
         drawingPanel.setSize(BOARD_WIDTH, BOARD_HEIGHT);
         drawingPanel.setLayout(null);
+        addVelocityButton = new JButton("Add Velocity to Ball 1");
+        addVelocityButton.setBounds(BOARD_WIDTH - 250, BOARD_HEIGHT - 100, 200, 30);
+        
+        velocityXField = new JTextField("X Velocity");
+        velocityXField.setBounds(BOARD_WIDTH - 250, BOARD_HEIGHT - 140, 100, 30); 
+        drawingPanel.add(velocityXField);
+        
+        velocityYField = new JTextField("Y Velocity");
+        velocityYField.setBounds(BOARD_WIDTH - 140, BOARD_HEIGHT - 140, 100, 30); 
+        drawingPanel.add(velocityYField);
+
+        addVelocityButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    double xVelocity = Double.parseDouble(velocityXField.getText());
+                    double yVelocity = Double.parseDouble(velocityYField.getText());
+                    Ball ball1 = World.getInstance().getBalls().get(0);
+                    ball1.body.velocity = new Vector2((float)xVelocity, (float)yVelocity);
+                } catch (NumberFormatException ex) {
+                    System.err.println("Invalid input for velocities");
+                }
+            }
+        });
+        drawingPanel.add(addVelocityButton);
+
         this.add(drawingPanel);
         this.setVisible(true);
     }

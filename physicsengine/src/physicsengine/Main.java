@@ -3,18 +3,19 @@ package physicsengine;
 public class Main {
 
 	public static void main(String[] args) {
-		World.getInstance().addBall(new Ball(new Vector2(500,500)));
-		World.getInstance().addBall(new Ball(new Vector2(500,200)));
+		Ball ball1 = new Ball(150,350);
+		Ball ball2 = new Ball(350,350);
+		World.getInstance().addBall(ball1);
+		World.getInstance().addBall(ball2);
 		java.awt.EventQueue.invokeLater(() -> {
-		    GUI g = new GUI(1200,700);
+		    GUI g = new GUI(1300,900);
 		    g.setVisible(true);
 		    Physics physics = new Physics(g); 
 		    physics.startSimulation();
 		});
-		World.getInstance().getBalls().get(0).addForce(new Vector2(0,200f));
-		World.getInstance().getBalls().get(1).addForce(new Vector2(0,200f));
-
         
+		ball1.addVel(new Vector2(280.19f, -20f)); 
+		ball2.addVel(new Vector2(8.80f, -20f)); 
 	}
 	
 	

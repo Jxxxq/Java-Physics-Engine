@@ -2,13 +2,23 @@ package physicsengine;
 
 public class Ball extends Shape{
 
-	private int radius = 30;
+	private int radius = 20;
 	private boolean isGrounded = false;
 	
 	public Ball(Vector2 position) {
 		body.position = new Vector2(position);
-		body.velocity = new Vector2(200,0);
-		body.acceleration = new Vector2(0,200f); //set 200 for gravity
+		body.velocity = new Vector2(0,0);
+		body.acceleration = new Vector2(0,400f); //set 400 for gravity
+	}
+	
+	public Ball(int posX, int posY) {
+		body.position = new Vector2(posX,posY);
+		body.velocity = new Vector2(0,0);
+		body.acceleration = new Vector2(0,200f); //set 400 for gravity
+	}
+	
+	public void addVel(Vector2 amount) {
+		body.velocity.add(amount);
 	}
 	
 	public void addForce(Vector2 force) {
